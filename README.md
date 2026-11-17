@@ -5,9 +5,7 @@
 
 ### Project Title or Name of the Application	: 
 ### Section			   	      : Cesium
-### Group Members			    : BECHAYDA, Cleone Ferge
-                            **FERRARIS, Jacob Christian**
-                            **ROQUE, Daniel Jan**
+### Group Members			    : BECHAYDA, Cleone Ferge ; FERRARIS, Jacob Christian ; ROQUE, Daniel Jan
 ### Date (Proposal Date)  : Nov 18, 2026
 
 ### Project Description:
