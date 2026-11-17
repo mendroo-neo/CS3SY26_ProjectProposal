@@ -9,7 +9,19 @@
 ### Date (Proposal Date)  : Nov 18, 2026
 
 ### Project Description:
-A game where you brew potions for 
+The Potion Room is a game wherein you are playing an alchemist who lives off of selling potions. Main Game Mechanics are: The Brewing Process, the shop (selling to customers), The Garden (growing of ingredients), and the Alchemy Map.
+
+The Garden:
+
+The Alchemy Map:
+
+The Brewing Process:
+
+The Shop:
+
+
+
+
 
 - Describes system components, features, and expected outputs clearly and logically. NOTE: Clearly described the elements(classes), their attributes and methods and how they will interact with each other.
 
