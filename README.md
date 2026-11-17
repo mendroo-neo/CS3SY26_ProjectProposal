@@ -2,12 +2,14 @@
 
 
 ## Project Proposal Template:
-cvbbbc
-### Project Title or Name of the Application	:
-### Section			   	      :
-### Group Members			    :
-### Date (Proposal Date)  : Nov 5, 2026
-fdfhdfhfshsdhfhhtrthdfh
+
+### Project Title or Name of the Application	: 
+### Section			   	      : Cesium
+### Group Members			    : BECHAYDA, Cleone Ferge
+                            **FERRARIS, Jacob Christian**
+                            **ROQUE, Daniel Jan**
+### Date (Proposal Date)  : Nov 18, 2026
+
 ### Project Description:
 
 - A brief summary of the project description and the need for it.
