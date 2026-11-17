@@ -1,24 +1,29 @@
 # CS3SY26_ProjectProposal by Aline Teresa Mendoza from CS Unit of PSHS
 
 
-## Project Proposal Template: The Potion Room
+## Project Proposal Template: 
 
-### Project Title or Name of the Application	: 
+### Project Title or Name of the Application	: The Potion Room
 ### Section			   	      : Cesium
 ### Group Members			    : BECHAYDA, Cleone Ferge ; FERRARIS, Jacob Christian ; ROQUE, Daniel Jan
 ### Date (Proposal Date)  : Nov 18, 2026
 
 ### Project Description:
-The Potion Room is a game wherein you are playing an alchemist who lives off of selling potions. Main Game Mechanics are: The Brewing Process, the shop (selling to customers), The Garden (growing of ingredients), and the Alchemy Map.
+The Potion Room is a game wherein you are playing an alchemist who lives off of selling potions. Main Game Mechanics are: The Brewing Process, the Counter (selling to customers), The Shop, The Garden (growing of ingredients), and the Alchemy Map.
 
-The Garden:
+#### The Garden:
 
-The Alchemy Map:
-A 2D board filled with hidden potion effects. It tracks where your potion marker is located and checks if you have reached an effect node. You pick and use ingredients to move your potion marker across the board toward target effects.
+#### The Alchemy Map:
+A 2D board filled with hidden potion effects. It tracks where your potion marker is located and checks if your potion has obtained an effect. You pick and use ingredients to move your potion marker across the board toward target effects (effect tiles), but if you land on a boundary tile, your potion will be fully destabilized and you will have to restart.
 
-The Brewing Process:Represents harvested herbs and minerals. Each ingredient has a specific movement direction and can be ground down to travel further across the brewing map.
+#### The Brewing Process:
+Represents harvested herbs and minerals. Each ingredient has a specific movement direction and can be ground down to travel further across the brewing map. Water is a key ingredient to this, as it will bring back your potion marker back to where it came from (depending on the water's numeric value).
 
-The Shop:
+#### The Counter: 
+The Counter is where you sell the requested potions to the customer. If the potion doesn't meet the standards of the customer's requests, they do not pay you any gold and will leave. If you do fully meet their standards, they pay you in full.
+
+#### The Shop: 
+The Shop is where you buy ingredients that are out of stock, it only accepts gold. Each ingredient in the shop has a specific amount of stock until it is sold out and will be randomized every game week. 
 
 
 
