@@ -14,7 +14,7 @@ The Potion Room is a game wherein you are playing an alchemist who lives off of 
 The Garden:
 
 The Alchemy Map:
-A 2D board filled with hidden potion effects. It tracks where your potion marker is located and checks if you have reached an effect node.
+A 2D board filled with hidden potion effects. It tracks where your potion marker is located and checks if you have reached an effect node. You pick and use ingredients to move your potion marker across the board toward target effects.
 
 The Brewing Process:Represents harvested herbs and minerals. Each ingredient has a specific movement direction and can be ground down to travel further across the brewing map.
 
