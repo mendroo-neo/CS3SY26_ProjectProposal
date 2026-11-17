@@ -25,6 +25,9 @@ The Counter is where you sell the requested potions to the customer. If the poti
 #### The Shop: 
 The Shop is where you buy ingredients that are out of stock, it only accepts gold. Each ingredient in the shop has a specific amount of stock until it is sold out and will be randomized every game week. 
 
+### How the Game works:
+At the start of each day, customers will line up at the counter and each customer has a request potion for you to brew. To brew a potion you shall access the brewing station wherein the ingredients in your inventory, the alchemy map, and the cauldron are present. Your goal is to reach the effect tile asked by the customer. The default x and y value of the potion marker on the map is (0, 0). If you add an ingredient, its stored x and y values are added to the current potion marker's coordinates. Adding further, you can grind these ingredients to further fluctuate the coordinate values. If you reach a boundary tile, the potion explodes and your potion marker will be set back to its default x and y coordinates. Your ingredients that have been used in the potion will not be returned. If you land on an effect tile, you can choose to sell this potion with the acquired tile to the customer, or continue moving the potion marker. Once sold, the customer evaluates if the potion they were asking is the exact same potion that they were given. Even if the customer is dissatisfied or not, they will leave and the next customer shall be asked for their request.
+
 
 
 
