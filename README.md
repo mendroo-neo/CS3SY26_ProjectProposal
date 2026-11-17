@@ -1,7 +1,7 @@
 # CS3SY26_ProjectProposal by Aline Teresa Mendoza from CS Unit of PSHS
 
 
-## Project Proposal Template:
+## Project Proposal Template: The Potion Room
 
 ### Project Title or Name of the Application	: 
 ### Section			   	      : Cesium
@@ -9,8 +9,7 @@
 ### Date (Proposal Date)  : Nov 18, 2026
 
 ### Project Description:
-
-- A brief summary of the project description and the need for it.
+A game where you brew potions for 
 
 - Describes system components, features, and expected outputs clearly and logically. NOTE: Clearly described the elements(classes), their attributes and methods and how they will interact with each other.
 
