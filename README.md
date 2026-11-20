@@ -42,12 +42,17 @@ At the start of each day, customers will line up at the counter and each custome
 
 ![Sample Diagram](https://static.visual-paradigm.com/web/images/tutorials/class-diagram-tutorial/01-class-diagram-example.png)
 
+
+Class Diagram Link
+https://drive.google.com/file/d/1j2fV419mKqPRhLEzYKG7ThZ_arZWcig7/view?usp=drivesdk
+
 ### Goals:
 
 Describe the long term outcomes of your project followed by a couple of objectives to meet the goals stated in this paragraph
 
-- Objective 1:BOOOM
-- Objective 2:
-- Objective n:
+- Objective 1: Be able to Create Modern games
+- Objective 2: Teach players chemical combinations
+
+
 
 [Click here for Rubrics and Sample projects](https://docs.google.com/document/d/1xKd1CqK6DcNWS2_oJPBNtY5n3I3Hqiw8FY3W295Iqfk/edit?usp=sharing)
