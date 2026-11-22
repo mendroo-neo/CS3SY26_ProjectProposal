@@ -159,7 +159,7 @@ Manages weekly randomized stock and ingredient purchases.
 - stock: Map<Ingredient, Integer>
 - catalog: List<Ingredient>
 ##### Methods:
-+ restockWeekly(): void (randomizes available items and quantities every 7 days)
++ restockWeekly(): void (randomizes available items every game week)
 + buyIngredient(player: Player, item: Ingredient, qty: int): boolean
 + getAvailableStock(): Map<Ingredient, Integer>
 
@@ -181,14 +181,14 @@ Manages daily customer queues and order validation.
 + getRequestDetails(): String
 
 ## Class Interactions (How Objects Work Together, more detailed explanation of how the game works)
-Daily Initialization: GameManager.startNewDay() triggers Garden.advanceDayGrowth(), Counter.generateDailyCustomers(), and—if a new week has begun—Shop.restockWeekly().
-Resource Gathering: The Player either harvests mature crops from Garden (via GardenPlot.isReady() → Player.addIngredient()) or buys missing ingredients from Shop.buyIngredient(), which verifies Player.spendGold().
+Daily Initialization: GameManager.startNewDay() triggers Garden.advanceDayGrowth(), Counter.generateDailyCustomers(), and if a new week has begun, Shop.restockWeekly().
+Resource Gathering: The Player either harvests mature crops from Garden (via GardenPlot.isReady() -> Player.addIngredient()) or buys missing ingredients from Shop.buyIngredient(), which verifies Player.spendGold().
 Brewing Loop:
-The Player selects an Ingredient from their inventory (Player.useIngredient()) and specifies a grind level.
+The Player selects an Ingredient from their inventory, Player.useIngredient(), and specifies a grind level from 0 to 3.
 Cauldron.addIngredient() invokes polymorphism by calling ingredient.calculateMovement(grindLevel) to get a movement vector (dx, dy).
 AlchemyMap.moveMarker(dx, dy) updates (markerX, markerY) and triggers Tile.onLand().
 If the Tile is an EffectTile, Cauldron records the effect; if it is a BoundaryTile, Cauldron.clearCauldron() destroys the consumed ingredients and AlchemyMap.resetMarker() returns the marker to (0, 0).
-Selling at the Counter: Once satisfied, the player calls Cauldron.bottlePotion() to produce a Potion object and passes it to Counter.serveCurrentCustomer(). Customer.evaluatePotion() compares the potion's effect against requestedEffect. On an exact match, Player.addGold(rewardGold) is called; regardless of outcome, Counter.nextCustomer() advances the queue.
+Selling at the Counter: Once satisfied, the player calls Cauldron.bottlePotion() to produce a Potion object and passes it to Counter.serveCurrentCustomer(). Customer.evaluatePotion() compares the potion's effect against requestedEffect. On an exact match, Player.addGold(rewardGold) is called; regardless of outcome, Counter.nextCustomer(), the customer next in line, advances the queue.
 
 
 
