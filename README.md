@@ -206,11 +206,6 @@ Selling in the Counter: When ready, Cauldron.finish_potion() produces a Potion, 
 
 
 
-![Sample Diagram](https://static.visual-paradigm.com/web/images/tutorials/class-diagram-tutorial/01-class-diagram-example.png)
-
-
-Class Diagram Link
-https://drive.google.com/file/d/1j2fV419mKqPRhLEzYKG7ThZ_arZWcig7/view?usp=drivesdk
 
 ### Goals:
 
