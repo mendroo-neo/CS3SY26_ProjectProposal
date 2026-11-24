@@ -17,56 +17,73 @@ The Potion Room is a game wherein you are playing an alchemist who lives off of 
  - User Needs: functional algorithm and game sequence, predictable movement rules, and replay-ability from the weekly resetting shop
 
 #### The Garden:
+Represents Growing plants over time so the player has renewable ingredients for brewing. You can water these plants to maintain their health and state, tracking their growth progress and stage. harvest them once mature to obtain ingredients for your inventory.
 
 #### The Alchemy Map:
 A 2D board filled with hidden potion effects. It tracks where your potion marker is located and checks if your potion has obtained an effect. You pick and use ingredients to move your potion marker across the board toward target effects (effect tiles), but if you land on a boundary tile, your potion will be fully destabilized and you will have to restart.
 
 #### The Brewing Process:
-Represents harvested herbs and minerals. Each ingredient has a specific movement direction and can be ground down to travel further across the brewing map. Water is a key ingredient to this, as it will bring back your potion marker back to where it came from (depending on the water's numeric value).
+Includes harvested herbs and water. Each ingredient has a specific movement direction and can be ground down to travel further across the brewing map. Water is a key part to this, as it will bring back your potion marker back to where it came from (depending on the water's numeric value).
 
 #### The Counter: 
-The Counter is where you sell the requested potions to the customer. If the potion doesn't meet the standards of the customer's requests, they do not pay you any gold and will leave. If you do fully meet their standards, they pay you in full.
+The Counter is where you sell the requested potions to each customer. If the potion doesn't meet the standards of the customer's requests, they do not pay you any gold and will leave. If you do fully meet their standards, they pay you in full.
 
 #### The Shop: 
-The Shop is where you buy ingredients that are out of stock, it only accepts gold. Each ingredient in the shop has a specific amount of stock until it is sold out and will be randomized every game week. 
+The Shop is where you buy ingredients that are out of stock, and it only accepts gold. Each ingredient in the shop has a specific amount of stock until it is sold out; the shop will be randomized every game week. 
 
 ### How the Game works:
 At the start of each day, customers will line up at the counter and each customer has a request potion for you to brew. To brew a potion you shall access the brewing station wherein the ingredients in your inventory, the alchemy map, and the cauldron are present. Your goal is to reach the effect tile asked by the customer. The default x and y value of the potion marker on the map is (0, 0). If you add an ingredient, its stored x and y values are added to the current potion marker's coordinates. Adding further, you can grind these ingredients to further fluctuate the coordinate values. If you reach a boundary tile, the potion explodes and your potion marker will be set back to its default x and y coordinates. Your ingredients that have been used in the potion will not be returned. If you land on an effect tile, you can choose to sell this potion with the acquired tile to the customer, or continue moving the potion marker. Once sold, the customer evaluates if the potion they were asking is the exact same potion that they were given. Even if the customer is dissatisfied or not, they will leave and the next customer shall be asked for their request.
 
 ### Class Specifications:
-#### 1. GameManager (Controller)
+
+#### 1. Calendar
+Tracks in-game dates, time progression, and daily/weekly states.
+##### Attributes:
+- months: list
+- day_states: list
+- month_id: int
+- day: int
+- day_count: int
+- time_index: int
+##### Methods:
++ current_month(self)
++ real_date(self)
++ current_day_state(self)
++ advance_time(self)
++ advance_date(self)
+
+#### 2. GameManager (Controller)
 Coordinates the game loop, day/week progression, and communication between subsystems.
 ##### Attributes:
-- currentDay: int
-- currentWeek: int
+- current_day: int
+- current_week: int
+- calendar: Calendar
 - player: Player
-- alchemyMap: AlchemyMap
+- alchemy_map: AlchemyMap
 - cauldron: Cauldron
-- garden: Garden
 - shop: Shop
 - counter: Counter
 ##### Methods:
-+ startGame(): void
-+ startNewDay(): void (advances garden growth, generates daily customers, checks if currentDay % 7 == 1 to restock shop)
-+ endDay(): void
-+ handleBrewAction(ingredient: Ingredient, grindLevel: int): void
-+ handleSellAction(): void
++ startGame(self)
++ startNewDay(self): aadvances time/date, updates plants, loads daily customers, and randomizes shop stock every game week
++ end_day(self)
++ brew_ingredient(self, item, grind_level)
++ sell_to_customer(self)
 
-#### 2. Player
+#### 3. Player
 Represents the alchemist's resources and inventory.
 ##### Attributes:
-- name: String
 - gold: int
-- inventory: Map<Ingredient, Integer>
-- brewedPotions: List<Potion>
+- inventory: dict
+- potions: List<Potion>
 ##### Methods:
-+ addGold(amount: int): void
-+ spendGold(amount: int): boolean
-+ addIngredient(item: Ingredient, qty: int): void
-+ useIngredient(item: Ingredient): boolean
-+ getInventory(): Map<Ingredient, Integer>
++ add_gold(self, amount: int)
++ spend_gold(self, amount: int): boolean
++ add_ingredient(self, item, count: int): void
++ consume_ingredient(self, item): boolean
 
-#### 3. Ingredient (Abstract Base Class)
+
+#### 4. Ingredient (Abstract Base Class)
 Represents raw alchemy materials that shift the potion marker on the map.
 ##### Attributes:
  name: String
@@ -79,126 +96,115 @@ Represents raw alchemy materials that shift the potion marker on the map.
 + getBasePrice(): int
 + abstract calculateMovement(grindLevel: int): Vector2D
 
-#### 4. Herb & Mineral (Subclasses of Ingredient)
-Herb Attributes: - freshness: int
-Herb Methods: + calculateMovement(grindLevel: int): Vector2D (multiplies deltaX and deltaY by 1 + grindLevel)
-Mineral Attributes: - hardness: int
-Mineral Methods: + calculateMovement(grindLevel: int): Vector2D (requires higher grind threshold; applies grindMultiplier)
-
-#### 5. Water (Subclass of Ingredient)
-Pulls the potion marker back toward (0, 0) proportionally to its numeric strength.
+#### 5. Plant
+Represents a growable plant in the garden that can also be ground/harvested for alchemy use.
 ##### Attributes:
-- dilutionValue: int
+- id: int
+- name: string
+- watering_time: int
+- water_state: string
+- health: int
+- growtime: int
+- growth: int
+- time_no_water: int
+- logs: list
+- g1: int
+- g2: int
 ##### Methods:
-+ calculateMovement(grindLevel: int): Vector2D (returns a vector moving toward (0, 0) capped by dilutionValue)
++ grind1(self)
++ grind2(self)
++ water(self)
++ harvest(self)
++ update(self)
++ log(self)
++ stage(self)
 
-#### 6. AlchemyMap & Tile Hierarchy
+#### 6. Water (Subclass of Ingredient)
+Pulls the potion marker back toward (0, 0) proportionally to its numeric pull.
+##### Attributes:
+- pull_strength: int
+##### Methods:
++ get_movement(self, grind_level): Vector2D (returns a vector moving toward (0, 0) capped by dilutionValue)
+
+#### 7. AlchemyMap & Tile Hierarchy
 Manages the 2D board, hidden effects, and hazard boundaries.
 ##### AlchemyMap Attributes:
-- width: int
-- height: int
-- grid: Tile[][]
-- markerX: int (default 0)
-- markerY: int (default 0)
+- rows: int
+- cols: int
+- tiles: list
+- marker_x: int (default 0)
+- marker_y: int (default 0)
 ##### AlchemyMap Methods:
-+ moveMarker(dx: int, dy: int): Tile
-+ resetMarker(): void (sets markerX = 0, markerY = 0)
-+ getTileAt(x: int, y: int): Tile
-+ getMarkerPosition(): Vector2D
++ step_marker(self, dx, dy): Tile
++ reset_marker(self): void (sets markerX = 0, markerY = 0)
++ get_tile(self, x, y): Tile
 
 > Tile (Base Class):
- x: int,  y: int, isDiscovered: boolean
-+ onLand(cauldron: Cauldron, map: AlchemyMap): String
+- x: int
+- y: int
+- revealed: boolean
++ trigger(self, cauldron, map)
 
 > EffectTile (Subclass of Tile):
-- effectName: String
-+ onLand(cauldron: Cauldron, map: AlchemyMap): String (reveals tile and attaches effectName to the active potion)
+- effect: String
++ trigger(cauldron, map): String (reveals tile and attaches trigger to the active potion)
 
 > BoundaryTile (Subclass of Tile):
-+ onLand(cauldron: Cauldron, map: AlchemyMap): String (destabilizes potion, clears cauldron, calls map.resetMarker())
++ trigger(cauldron, map): String (destabilizes potion, clears cauldron, calls map.reset_marker())
 
-#### 7. Cauldron & Potion
+#### 8. Cauldron & Potion
 Handles active brewing state and produces finished potions.
 ##### Cauldron Attributes:
-- usedIngredients: List<Ingredient>
-- acquiredEffect: String
-- isStable: boolean
+- ingredients_used: List<Ingredient>
+- current_effect: String
+- ruined: boolean
 ##### Cauldron Methods:
-+ addIngredient(item: Ingredient, grindLevel: int, map: AlchemyMap): void
-+ bottlePotion(): Potion
-+ clearCauldron(): void (resets ingredients without returning them to player inventory)
++ add_to_brew(self, item, grind_level, map)
++ finish_potion(self): Potion
++ dump_brew(self): void (resets ingredients without returning them to player inventory)
 ##### Potion Attributes:
-- effectName: String
-- sellValue: int
+- effect: String
+- value: int
 ##### Potion Methods:
-+ getEffectName(): String
-+ getSellValue(): int
-
-#### 8. Garden & GardenPlot
-Allows players to grow renewable ingredients across in-game days.
-##### Garden Attributes:
-- plots: List<GardenPlot>
-##### Garden Methods:
-+ plantSeed(plotIndex: int, seedType: Ingredient): boolean
-+ waterPlot(plotIndex: int): void
-+ advanceDayGrowth(): void
-+ harvestPlot(plotIndex: int, player: Player): boolean
-##### GardenPlot Attributes:
-- plantedIngredient: Ingredient
-- daysGrown: int
-- daysToMature: int
-- isWatered: boolean
-##### GardenPlot Methods:
-+ grow(): void
-+ isReady(): boolean
-+ resetPlot(): void
++ get_effect(self): String
++ get_value(self): int
 
 #### 9. Shop
 Manages weekly randomized stock and ingredient purchases.
 ##### Attributes:
-- stock: Map<Ingredient, Integer>
-- catalog: List<Ingredient>
+- stock: dict
+- item_pool: List<Ingredient>
 ##### Methods:
-+ restockWeekly(): void (randomizes available items every game week)
-+ buyIngredient(player: Player, item: Ingredient, qty: int): boolean
-+ getAvailableStock(): Map<Ingredient, Integer>
++ randomize_weekly_stock(self): void (randomizes available items every game week)
++ purchase(self, player, item, qty): boolean
 
 #### 10. Counter & Customer
 Manages daily customer queues and order validation.
 ##### Counter Attributes:
-- customerQueue: Queue<Customer>
-- currentCustomer: Customer
+- queue: list<Customer>
+- active_customer: Customer
 ##### Counter Methods:
-+ generateDailyCustomers(day: int): void
-+ serveCurrentCustomer(potion: Potion, player: Player): boolean
-+ nextCustomer(): Customer
++ load_customers_for_day(self, day)
++ hand_over_potion(self, potion, player): boolean
++ advance_queue(self)
 ##### Customer Attributes:
 - name: String
-- requestedEffect: String
-- rewardGold: int
+- desired_effect: String
+- payout: int
 ##### Customer Methods:
-+ evaluatePotion(potion: Potion): boolean (returns true only if potion.getEffectName().equals(requestedEffect))
-+ getRequestDetails(): String
++ check_order(self, potion): boolean (returns true only if potion.get_effect().equals(desired_effect))
+
 
 ## Class Interactions (How Objects Work Together, more detailed explanation of how the game works)
-Daily Initialization: GameManager.startNewDay() triggers Garden.advanceDayGrowth(), Counter.generateDailyCustomers(), and if a new week has begun, Shop.restockWeekly().
-Resource Gathering: The Player either harvests mature crops from Garden (via GardenPlot.isReady() -> Player.addIngredient()) or buys missing ingredients from Shop.buyIngredient(), which verifies Player.spendGold().
+Daily & Weekly Progression: GameManager.start_new_day() coordinates with Calender (advance_date / advance_time), updates Plant states (update), calls Counter.load_customers_for_day(day), and calls Shop.randomize_weekly_stock() every game week.
+Resource Gathering: The player can tend and harvest Plant objects (water, harvest) into Player.inventory (add_ingredient), or buy items from Shop.purchase(player, item, qty) using Player.spend_gold(amount).
 Brewing Loop:
-The Player selects an Ingredient from their inventory, Player.useIngredient(), and specifies a grind level from 0 to 3.
-Cauldron.addIngredient() invokes polymorphism by calling ingredient.calculateMovement(grindLevel) to get a movement vector (dx, dy).
-AlchemyMap.moveMarker(dx, dy) updates (markerX, markerY) and triggers Tile.onLand().
-If the Tile is an EffectTile, Cauldron records the effect; if it is a BoundaryTile, Cauldron.clearCauldron() destroys the consumed ingredients and AlchemyMap.resetMarker() returns the marker to (0, 0).
-Selling at the Counter: Once satisfied, the player calls Cauldron.bottlePotion() to produce a Potion object and passes it to Counter.serveCurrentCustomer(). Customer.evaluatePotion() compares the potion's effect against requestedEffect. On an exact match, Player.addGold(rewardGold) is called; regardless of outcome, Counter.nextCustomer(), the customer next in line, advances the queue.
+GameManager.brew_ingredient(item, grind_level) consumes the ingredient from the player (Player.consume_ingredient(item)) and adds it to the cauldron (Cauldron.add_to_brew(item, grind_level, map)).
+Ingredient.get_movement(grind_level) computes the movement shift (Plant or Water), and AlchemyMap.step_marker(dx, dy) updates marker_x and marker_y.
+Landing on a tile calls Tile.trigger(cauldron, map): an EffectTile reveals itself and sets current_effect on Cauldron, while a BoundaryTile calls Cauldron.dump_brew() (without returning used ingredients) and AlchemyMap.reset_marker() back to (0, 0).
+Selling in the Counter: When ready, Cauldron.finish_potion() produces a Potion, and GameManager.sell_to_customer() passes it to Counter.hand_over_potion(potion, player). Customer.check_order(potion) compares potion.get_effect() against desired_effect; if matched, Player.add_gold(payout) is called. Regardless of whether the order succeeded, Counter.advance_queue() moves to the next customer.
 
 
-
-- Describes system components, features, and expected outputs clearly and logically. NOTE: Clearly described the elements(classes), their attributes and methods and how they will interact with each other.
-
-- Include the description as well of your target demographics as the user of your application. 
-
-- The description is then followed by the class diagram, depicting clearly what was described.
-
-**Sample class Diagram from https://static.visual-paradigm.com/web/images/tutorials/class-diagram-tutorial/01-class-diagram-example.png:**
 
 ![Sample Diagram](https://static.visual-paradigm.com/web/images/tutorials/class-diagram-tutorial/01-class-diagram-example.png)
 
